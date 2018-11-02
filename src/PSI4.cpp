@@ -113,11 +113,11 @@ void PSI4Charges(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
   globalSys = system(call.str().c_str());
   call << " ";
   //
-  call.str("");
-  call << "mv ";
-  call << "LICHM_" << bead << ".log ";
-  call << "LICHM_PSI_LASTITER/.";
-  globalSys = system(call.str().c_str());
+  //call.str("");
+  //call << "mv ";
+  //call << "LICHM_" << bead << ".log ";
+  //call << "LICHM_PSI_LASTITER/.";
+  //globalSys = system(call.str().c_str());
   return;
 };
 
@@ -265,11 +265,11 @@ double PSI4Energy(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
   globalSys = system(call.str().c_str());
   call << " ";
   //
-  call.str("");
-  call << "mv ";
-  call << "LICHM_" << bead << ".log ";
-  call << "LICHM_PSI_LASTITER/.";
-  globalSys = system(call.str().c_str());
+  //call.str("");
+  //call << "mv ";
+  //call << "LICHM_" << bead << ".log ";
+  //call << "LICHM_PSI_LASTITER/.";
+  //globalSys = system(call.str().c_str());
   //Change units
   E *= har2eV;
   return E;
