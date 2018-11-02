@@ -127,7 +127,7 @@ double PSI4Energy(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
     call << "'./LICHM_" << bead << ".180']";
   }
   call << ",return_wfn=True)" << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   if (QMMM)
   {
     call << "oeprop(qmwfn,'MULLIKEN_CHARGES')" << '\n';
@@ -268,7 +268,7 @@ double PSI4Forces(vector<QMMMAtom>& QMMMData, VectorXd& forces,
   call << "gradient('" << QMMMOpts.func << "'";
   call << ",bypass_scf=True)"; //Skip the extra SCF cycle
   call << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   if (QMMM)
   {
     call << "oeprop(qmwfn,'MULLIKEN_CHARGES')" << '\n';
@@ -414,7 +414,7 @@ MatrixXd PSI4Hessian(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts,
   call << "QMHess = hessian('" << QMMMOpts.func << "'";
   call << ",bypass_scf=True)"; //Skip the extra SCF cycle
   call << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   call << "QMHess.print_out()" << '\n';
   if (QMMM)
   {
@@ -533,7 +533,7 @@ double PSI4Opt(vector<QMMMAtom>& QMMMData,
   call << ")" << '\n';
   call << "Eqm,qmwfn = energy('" << QMMMOpts.func << "'";
   call << ",return_wfn=True)" << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   if (QMMM)
   {
     call << "oeprop(qmwfn,'MULLIKEN_CHARGES')" << '\n';
@@ -680,4 +680,3 @@ double PSI4Opt(vector<QMMMAtom>& QMMMData,
 
 //End of file group
 ///@}
-
