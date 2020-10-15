@@ -1260,6 +1260,12 @@ void LICHEMNEB(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int optCt)
   }
   //Clean up files
   call.str("");
+  call << "mkdir LICHM_CHARGES_LASTITER";
+  globalSys = system(call.str().c_str());
+  //
+  call.str("");
+  call << "mv MMCharges_*.txt LICHM_CHARGES_LASTITER/.";
+  globalSys = system(call.str().c_str());
   call << "rm -f LICHMNEBOpt.xyz MMCharges_*.txt";
   globalSys = system(call.str().c_str());
   //Finish and return
@@ -1545,4 +1551,3 @@ int FBNEBMCMove(vector<QMMMAtom>& QMMMData, vector<VectorXd>& allForces,
 
 //End of file group
 ///@}
-

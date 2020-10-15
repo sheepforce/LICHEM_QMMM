@@ -94,13 +94,30 @@ void PSI4Charges(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
     }
   }
   inFile.close();
-  //Clean up files
+  //Clean up files by moving them to a directory storing the last iteration file
   call.str("");
-  call << "rm -f ";
-  call << "LICHM_" << bead << ".dat ";
-  call << "LICHM_" << bead << ".out ";
-  call << "LICHM_" << bead << ".log";
+  call << "mkdir -p LICHM_PSI_LASTITER";
   globalSys = system(call.str().c_str());
+  //
+  call.str("");
+  call << "mv ";
+  call << "LICHM_" << bead << ".dat ";
+  call << "LICHM_PSI_LASTITER/.";
+  globalSys = system(call.str().c_str());
+  call << " ";
+  //
+  call.str("");
+  call << "mv ";
+  call << "LICHM_" << bead << ".out ";
+  call << "LICHM_PSI_LASTITER/.";
+  globalSys = system(call.str().c_str());
+  call << " ";
+  //
+  //call.str("");
+  //call << "mv ";
+  //call << "LICHM_" << bead << ".log ";
+  //call << "LICHM_PSI_LASTITER/.";
+  //globalSys = system(call.str().c_str());
   return;
 };
 
@@ -127,7 +144,7 @@ double PSI4Energy(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
     call << "'./LICHM_" << bead << ".180']";
   }
   call << ",return_wfn=True)" << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   if (QMMM)
   {
     call << "oeprop(qmwfn,'MULLIKEN_CHARGES')" << '\n';
@@ -231,11 +248,28 @@ double PSI4Energy(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
     call << "rm -f LICHM_" << bead << ".trash";
     call << " "; //Extra blank space before the next command
   }
-  call << "rm -f ";
-  call << "LICHM_" << bead << ".dat ";
-  call << "LICHM_" << bead << ".out ";
-  call << "LICHM_" << bead << ".log";
+  call << "mkdir -p LICHM_PSI_LASTITER";
   globalSys = system(call.str().c_str());
+  //
+  call.str("");
+  call << "mv ";
+  call << "LICHM_" << bead << ".dat ";
+  call << "LICHM_PSI_LASTITER/.";
+  call << " ";
+  globalSys = system(call.str().c_str());
+  //
+  call.str("");
+  call << "mv ";
+  call << "LICHM_" << bead << ".out ";
+  call << "LICHM_PSI_LASTITER/.";
+  globalSys = system(call.str().c_str());
+  call << " ";
+  //
+  //call.str("");
+  //call << "mv ";
+  //call << "LICHM_" << bead << ".log ";
+  //call << "LICHM_PSI_LASTITER/.";
+  //globalSys = system(call.str().c_str());
   //Change units
   E *= har2eV;
   return E;
@@ -268,7 +302,7 @@ double PSI4Forces(vector<QMMMAtom>& QMMMData, VectorXd& forces,
   call << "gradient('" << QMMMOpts.func << "'";
   call << ",bypass_scf=True)"; //Skip the extra SCF cycle
   call << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   if (QMMM)
   {
     call << "oeprop(qmwfn,'MULLIKEN_CHARGES')" << '\n';
@@ -414,7 +448,7 @@ MatrixXd PSI4Hessian(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts,
   call << "QMHess = hessian('" << QMMMOpts.func << "'";
   call << ",bypass_scf=True)"; //Skip the extra SCF cycle
   call << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   call << "QMHess.print_out()" << '\n';
   if (QMMM)
   {
@@ -533,7 +567,7 @@ double PSI4Opt(vector<QMMMAtom>& QMMMData,
   call << ")" << '\n';
   call << "Eqm,qmwfn = energy('" << QMMMOpts.func << "'";
   call << ",return_wfn=True)" << '\n';
-  call << "print('Energy: '+`Eqm`)" << '\n';
+  call << "print('Energy: ', Eqm)" << '\n';
   if (QMMM)
   {
     call << "oeprop(qmwfn,'MULLIKEN_CHARGES')" << '\n';
@@ -680,4 +714,3 @@ double PSI4Opt(vector<QMMMAtom>& QMMMData,
 
 //End of file group
 ///@}
-
